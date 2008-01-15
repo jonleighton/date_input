@@ -1,4 +1,14 @@
-/* date input */
+/* Some resets for compatibility with existing CSS */
+.date_selector, .date_selector * {
+  width: auto;
+  height: auto;
+  border: none;
+  background: none;
+  margin: 0;
+  padding: 0;
+  text-align: left;
+  text-decoration: none;
+}
 .date_selector {
   background: #F2F2F2;
   border: 1px solid #bbb;
@@ -8,13 +18,13 @@
   .date_selector .month_nav {
     margin: 0 0 5px 0;
     padding: 0;
-    overflow: hidden;
-    text-align: center;
+    display: block;
   }
     .date_selector .month_name {
       font-weight: bold;
       line-height: 20px;
-      height: 20px;
+      display: block;
+      text-align: center;
     }
     .date_selector .month_nav a {
       display: block;
@@ -22,10 +32,18 @@
       top: 5px;
       width: 20px;
       height: 20px;
-      line-height: 15px;
+      line-height: 17px;
       font-weight: bold;
       color: #003C78;
+      text-align: center;
+      font-size: 120%;
+      overflow: hidden;
     }
+      .date_selector .month_nav a:hover, .date_selector .month_nav a:focus {
+        background: none;
+        color: #003C78;
+        text-decoration: none;
+      }
     .date_selector .prev {
       left: 5px;
     }
@@ -40,6 +58,7 @@
       width: 2.5em;
       height: 2em;
       padding: 0;
+      text-align: center;
     }
     .date_selector td {
       border: 1px solid #ccc;
@@ -61,6 +80,7 @@
         height: 100%;
         line-height: 2em;
         color: #003C78;
+        text-align: center;
       }
       .date_selector td.today a {
         background: #FFFEB3;

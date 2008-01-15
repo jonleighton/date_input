@@ -1,0 +1,4 @@
+There aren't any "proper" (i.e. unit) tests at the moment, though there may be
+in the future. For now you can view the plugin working by viewing the index.html
+in this directory. It references the date_input.(js|css) in the parent directory
+so you can just make edits there.
