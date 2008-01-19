@@ -2,6 +2,7 @@ Version 1.1
 -----------
 
  * Localise the $ function for the whole plugin, for better compatibility
+ * Adding an options argument, a simple way to customise or localise the plugin
 
 Version 1.0
 -----------

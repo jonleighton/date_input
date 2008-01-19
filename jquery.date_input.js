@@ -1,6 +1,8 @@
 (function($) { // Localise the $ function
 
-function DateInput(el) {
+window.DateInput = function DateInput(el, opts) {
+  $.extend(this, opts);
+  
   this.input = $(el);
   this.bindMethodsToObj("show", "hide", "hideIfClickOutside", "selectDate", "prevMonth", "nextMonth");
   
@@ -8,9 +10,11 @@ function DateInput(el) {
   this.selectDate();
   this.hide();
 };
-DateInput.MONTH_NAMES = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-DateInput.SHORT_MONTH_NAMES = $.map(DateInput.MONTH_NAMES, function(month) { return month.substr(0, 3) });
-DateInput.SHORT_DAY_NAMES = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+DateInput.DEFAULT_OPTS = {
+  month_names: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+  short_month_names: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+  short_day_names: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
+};
 DateInput.prototype = {
   build: function() {
     this.monthNameSpan = $('<span class="month_name"></span>');
@@ -21,7 +25,7 @@ DateInput.prototype = {
     );
     
     var tableShell = "<table><thead><tr>";
-    $(DateInput.SHORT_DAY_NAMES).each(function() {
+    $(this.short_day_names).each(function() {
       tableShell += "<th>" + this + "</th>";
     });
     tableShell += "</tr></thead><tbody></tbody></table>";
@@ -69,7 +73,7 @@ DateInput.prototype = {
     this.tbody.empty().append(dayCells);
     
     $("a", this.tbody).click(this.bindToObj(function(event) {
-      this.selectDate(new Date($(event.target).parent().attr("date")));
+      this.selectDate(this.stringToDate($(event.target).parent().attr("date")));
       this.hide();
       return false;
     }));
@@ -121,7 +125,7 @@ DateInput.prototype = {
   },
   
   dateToString: function(date) {
-    return date.getDate() + " " + DateInput.SHORT_MONTH_NAMES[date.getMonth()] + " " + date.getFullYear();
+    return date.getDate() + " " + this.short_month_names[date.getMonth()] + " " + date.getFullYear();
   },
   
   setPosition: function() {
@@ -154,7 +158,7 @@ DateInput.prototype = {
   },
   
   monthName: function(date) {
-    return DateInput.MONTH_NAMES[date.getMonth()];
+    return this.month_names[date.getMonth()];
   },
   
   insideSelector: function(event) {
@@ -179,20 +183,22 @@ DateInput.prototype = {
     };
   },
   
-  shortMonthNum: function(month_name) {
-    for (var i = 0; i < DateInput.SHORT_MONTH_NAMES.length; i++) {
-      if (month_name == DateInput.SHORT_MONTH_NAMES[i]) {
-        return i;
-      };
+  indexFor: function(array, value) {
+    for (var i = 0; i < array.length; i++) {
+      if (value == array[i]) return i;
     };
   },
   
+  monthNum: function(month_name) {
+    return this.indexFor(this.month_names, month_name);
+  },
+  
+  shortMonthNum: function(month_name) {
+    return this.indexFor(this.short_month_names, month_name);
+  },
+  
   shortDayNum: function(day_name) {
-    for (var i = 0; i < DateInput.SHORT_DAY_NAMES.length; i++) {
-      if (day_name == DateInput.SHORT_DAY_NAMES[i]) {
-        return i;
-      };
-    };
+    return this.indexFor(this.short_day_names, day_name);
   },
   
   daysBetween: function(start, end) {
@@ -203,24 +209,27 @@ DateInput.prototype = {
   
   changeDayTo: function(to, date, dayChange) {
     var curDay = date.getDay() == 0 ? 6 : date.getDay() - 1;
-    var difference = dayChange * Math.abs(curDay - this.shortDayNum(to));
+    var difference = dayChange * Math.abs(curDay - to);
     return new Date(date.getFullYear(), date.getMonth(), date.getDate() + difference);
   },
   
   rangeStart: function(date) {
-    return this.changeDayTo("Mon", new Date(date.getFullYear(), date.getMonth()), -1);
+    // 0 = Monday
+    return this.changeDayTo(0, new Date(date.getFullYear(), date.getMonth()), -1);
   },
   
   rangeEnd: function(date) {
-    return this.changeDayTo("Sun", new Date(date.getFullYear(), date.getMonth() + 1, 0), 1);
+    // 6 = Sunday
+    return this.changeDayTo(6, new Date(date.getFullYear(), date.getMonth() + 1, 0), 1);
   }
 };
 
-$.fn.date_input = function() {
-  return this.each(function() { new DateInput(this); });
+$.fn.date_input = function(opts) {
+  if (typeof(opts) != "object") opts = DateInput.DEFAULT_OPTS;
+  return this.each(function() { new DateInput(this, opts); });
 };
-$.date_input = { initialize: function() {
-  $("input.date_input").date_input();
+$.date_input = { initialize: function(opts) {
+  $("input.date_input").date_input(opts);
 } };
 
 })(jQuery); // End localisation of the $ function
