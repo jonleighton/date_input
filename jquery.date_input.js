@@ -1,3 +1,5 @@
+(function($) { // Localise the $ function
+
 function DateInput(el) {
   this.input = $(el);
   this.bindMethodsToObj("show", "hide", "hideIfClickOutside", "selectDate", "prevMonth", "nextMonth");
@@ -214,11 +216,11 @@ DateInput.prototype = {
   }
 };
 
-(function($) {
-  $.fn.date_input = function() {
-    return this.each(function() { new DateInput(this); });
-  };
-  $.date_input = { initialize: function() {
-    $("input.date_input").date_input();
-  } };
-})(jQuery);
+$.fn.date_input = function() {
+  return this.each(function() { new DateInput(this); });
+};
+$.date_input = { initialize: function() {
+  $("input.date_input").date_input();
+} };
+
+})(jQuery); // End localisation of the $ function
