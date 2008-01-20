@@ -101,12 +101,12 @@ DateInput.prototype = {
     this.setPosition();
     this.rootLayers.css("display", "block");
     this.input.unbind("focus", this.show);
-    $(document.body).click(this.hideIfClickOutside);
+    $(window).click(this.hideIfClickOutside);
   },
   
   hide: function() {
     this.rootLayers.css("display", "none");
-    $(document.body).unbind("click", this.hideIfClickOutside);
+    $(window).unbind("click", this.hideIfClickOutside);
     this.input.focus(this.show);
   },
   

@@ -4,6 +4,8 @@ Version 1.1
  * Localise the $ function for the whole plugin, for better compatibility
  * Add an options argument, a simple way to customise or localise the plugin
  * Add a start_of_week option and make the code more general to accomodate this
+ * Hide the date selector if a click is detected anywhere within the window, not
+   just in the body of the document
 
 Version 1.0
 -----------
