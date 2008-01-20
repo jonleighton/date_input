@@ -5,7 +5,7 @@ Version 1.1
  * Add an options argument, a simple way to customise or localise the plugin
  * Add a start_of_week option and make the code more general to accomodate this
  * Hide the date selector if a click is detected anywhere within the window, not
-   just in the body of the document
+   just in the body of the document (only for browsers which support window.onclick)
 
 Version 1.0
 -----------
