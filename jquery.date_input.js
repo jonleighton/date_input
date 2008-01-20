@@ -1,7 +1,8 @@
 (function($) { // Localise the $ function
 
 window.DateInput = function DateInput(el, opts) {
-  $.extend(this, opts);
+  if (typeof(opts) != "object") opts = {};
+  $.extend(this, DateInput.DEFAULT_OPTS, opts);
   
   this.input = $(el);
   this.bindMethodsToObj("show", "hide", "hideIfClickOutside", "selectDate", "prevMonth", "nextMonth");
@@ -239,7 +240,6 @@ DateInput.prototype = {
 };
 
 $.fn.date_input = function(opts) {
-  if (typeof(opts) != "object") opts = DateInput.DEFAULT_OPTS;
   return this.each(function() { new DateInput(this, opts); });
 };
 $.date_input = { initialize: function(opts) {
