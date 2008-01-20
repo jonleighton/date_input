@@ -24,7 +24,7 @@ class PackageGenerator
   
   def copy_files
     FileUtils.mkdir package_dir
-    FileUtils.cp root_files("date_input.css", "LICENCE", "README"), package_dir
+    FileUtils.cp root_files("date_input.css", "LICENCE", "README", "CHANGELOG", "NOTES"), package_dir
   end
   
   def write_header

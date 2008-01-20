@@ -13,7 +13,8 @@ window.DateInput = function DateInput(el, opts) {
 DateInput.DEFAULT_OPTS = {
   month_names: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
   short_month_names: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-  short_day_names: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
+  short_day_names: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+  start_of_week: 1
 };
 DateInput.prototype = {
   build: function() {
@@ -25,7 +26,7 @@ DateInput.prototype = {
     );
     
     var tableShell = "<table><thead><tr>";
-    $(this.short_day_names).each(function() {
+    $(this.adjustDays(this.short_day_names)).each(function() {
       tableShell += "<th>" + this + "</th>";
     });
     tableShell += "</tr></thead><tbody></tbody></table>";
@@ -58,7 +59,7 @@ DateInput.prototype = {
     for (var i = 0; i <= numDays; i++) {
       var currentDay = new Date(rangeStart.getFullYear(), rangeStart.getMonth(), rangeStart.getDate() + i);
       
-      if (currentDay.getDay() == 1) dayCells += "<tr>"; // Monday
+      if (this.isFirstDayOfWeek(currentDay)) dayCells += "<tr>";
       
       if (currentDay.getMonth() == date.getMonth()) {
         dayCells += '<td date="' + this.dateToString(currentDay) + '"><a href="#">' + currentDay.getDate() + '</a></td>';
@@ -66,7 +67,7 @@ DateInput.prototype = {
         dayCells += '<td class="unselected_month" date="' + this.dateToString(currentDay) + '">' + currentDay.getDate() + '</td>';
       };
       
-      if (currentDay.getDay() == 0) dayCells += "</tr>"; // Sunday
+      if (this.isLastDayOfWeek(currentDay)) dayCells += "</tr>";
     };
     
     this.monthNameSpan.empty().append(this.monthName(date) + " " + date.getFullYear());
@@ -207,20 +208,33 @@ DateInput.prototype = {
     return (end - start) / 86400000;
   },
   
-  changeDayTo: function(to, date, dayChange) {
-    var curDay = date.getDay() == 0 ? 6 : date.getDay() - 1;
-    var difference = dayChange * Math.abs(curDay - to);
+  changeDayTo: function(to, date, direction) {
+    var difference = direction * (Math.abs(date.getDay() - to - (direction * 7)) % 7);
     return new Date(date.getFullYear(), date.getMonth(), date.getDate() + difference);
   },
   
   rangeStart: function(date) {
-    // 0 = Monday
-    return this.changeDayTo(0, new Date(date.getFullYear(), date.getMonth()), -1);
+    return this.changeDayTo(this.start_of_week, new Date(date.getFullYear(), date.getMonth()), -1);
   },
   
   rangeEnd: function(date) {
-    // 6 = Sunday
-    return this.changeDayTo(6, new Date(date.getFullYear(), date.getMonth() + 1, 0), 1);
+    return this.changeDayTo((this.start_of_week - 1) % 7, new Date(date.getFullYear(), date.getMonth() + 1, 0), 1);
+  },
+  
+  isFirstDayOfWeek: function(date) {
+    return date.getDay() == this.start_of_week;
+  },
+  
+  isLastDayOfWeek: function(date) {
+    return date.getDay() == (this.start_of_week - 1) % 7;
+  },
+  
+  adjustDays: function(days) {
+    var newDays = [];
+    for (var i = 0; i < days.length; i++) {
+      newDays[i] = days[(i + this.start_of_week) % 7];
+    };
+    return newDays;
   }
 };
 

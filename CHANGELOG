@@ -2,7 +2,8 @@ Version 1.1
 -----------
 
  * Localise the $ function for the whole plugin, for better compatibility
- * Adding an options argument, a simple way to customise or localise the plugin
+ * Add an options argument, a simple way to customise or localise the plugin
+ * Add a start_of_week option and make the code more general to accomodate this
 
 Version 1.0
 -----------
