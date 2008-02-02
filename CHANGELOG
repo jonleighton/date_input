@@ -1,3 +1,11 @@
+Version 1.1.1
+-------------
+
+ * Bugfix - Make the stringToDate function a bit more forgiving. Previously
+   it wouldn't accept international characters in the month name (e.g. Mär)
+   Now the month name is only required to be a positive number of non-space
+   characters. [Heads up: Arne-Kolja Bachstein]
+
 Version 1.1
 -----------
 

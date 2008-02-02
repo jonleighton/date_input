@@ -119,7 +119,7 @@ DateInput.prototype = {
   
   stringToDate: function(string) {
     var matches;
-    if (matches = string.match(/^(\d{1,2}) ([A-Z][a-z]{2,2}) (\d{4,4})$/)) {
+    if (matches = string.match(/^(\d{1,2}) ([^\s]+) (\d{4,4})$/)) {
       return new Date(matches[3], this.shortMonthNum(matches[2]), matches[1]);
     } else {
       return null;
