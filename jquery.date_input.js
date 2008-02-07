@@ -103,8 +103,8 @@ DateInput.prototype = {
   },
   
   show: function() {
-    this.setPosition();
     this.rootLayers.css("display", "block");
+    this.setPosition();
     this.input.unbind("focus", this.show);
     $([window, document.body]).click(this.hideIfClickOutside);
   },

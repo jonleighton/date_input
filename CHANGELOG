@@ -3,6 +3,8 @@ Version 1.1.2
 
  * Bugfix - Manually trigger a change event on the input when we change its
    value. [Heads up: Arne-Kolja Bachstein]
+ * Bugfix - Don't allow IE6 select lists to show through. This was supposed to
+   work but I obviously neglected my testing duties! [Heads up: kgmiller]
 
 Version 1.1.1
 -------------
