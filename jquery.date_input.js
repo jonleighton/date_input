@@ -91,8 +91,12 @@ DateInput.prototype = {
     if (date) {
       this.selectedDate = date;
       this.selectMonth(date);
-      $('td[date=' + this.dateToString(date) + ']', this.tbody).addClass("selected");
-      this.input.val(this.dateToString(date));
+      var stringDate = this.dateToString(date);
+      $('td[date=' + stringDate + ']', this.tbody).addClass("selected");
+      
+      if (this.input.val() != stringDate) {
+        this.input.val(stringDate).change();
+      };
     } else {
       this.selectMonth(new Date());
     };

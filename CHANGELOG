@@ -1,3 +1,9 @@
+Version 1.1.2
+-------------
+
+ * Bugfix - Manually trigger a change event on the input when we change its
+   value. [Heads up: Arne-Kolja Bachstein]
+
 Version 1.1.1
 -------------
 
