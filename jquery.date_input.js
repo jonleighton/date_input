@@ -1,6 +1,6 @@
-(function($) { // Localise the $ function
+DateInput = (function($) { // Localise the $ function
 
-window.DateInput = function DateInput(el, opts) {
+function DateInput(el, opts) {
   if (typeof(opts) != "object") opts = {};
   $.extend(this, DateInput.DEFAULT_OPTS, opts);
   
@@ -250,4 +250,5 @@ $.date_input = { initialize: function(opts) {
   $("input.date_input").date_input(opts);
 } };
 
+return DateInput;
 })(jQuery); // End localisation of the $ function
