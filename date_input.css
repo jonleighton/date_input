@@ -14,6 +14,14 @@
   border: 1px solid #bbb;
   padding: 5px;
   margin: -1px 0 0 0;
+  position: absolute;
+  z-index: 100000;
+  display: none;
+}
+.date_selector_ieframe {
+  position: absolute;
+  z-index: 999999;
+  display: none;
 }
   .date_selector .month_nav {
     margin: 0 0 5px 0;

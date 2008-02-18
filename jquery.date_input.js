@@ -32,15 +32,10 @@ DateInput.prototype = {
     });
     tableShell += "</tr></thead><tbody></tbody></table>";
     
-    this.dateSelector = this.rootLayers = $('<div class="date_selector"></div>')
-      .css({ display: "none", position: "absolute", zIndex: 100 })
-      .append(monthNav, tableShell)
-      .appendTo(document.body);
+    this.dateSelector = this.rootLayers = $('<div class="date_selector"></div>').append(monthNav, tableShell).appendTo(document.body);
     
     if ($.browser.msie && $.browser.version < 7) {
-      this.ieframe = $('<iframe class="date_selector_ieframe" frameborder="0" src="#"></iframe>')
-        .css({ position: "absolute", display: "none", zIndex: 99 })
-        .insertBefore(this.dateSelector);
+      this.ieframe = $('<iframe class="date_selector_ieframe" frameborder="0" src="#"></iframe>').insertBefore(this.dateSelector);
       this.rootLayers = this.rootLayers.add(this.ieframe);
     };
     
