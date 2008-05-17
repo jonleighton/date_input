@@ -1,14 +1,10 @@
-Version 1.1.5
--------------
-
- * Bugfix - The current month should always be stored using the first day so we
-   can be sure that day exists when the month is changed (#1717)
-
 Version 1.1.4
 -------------
 
  * Moved the z-index and other CSS declarations from the Javascript into the CSS
    file for easier customisation (#1521)
+ * Bugfix - The current month should always be stored using the first day so we
+   can be sure that day exists when the month is changed (#1717)
 
 Version 1.1.3
 -------------
