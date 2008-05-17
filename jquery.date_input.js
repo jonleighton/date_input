@@ -46,7 +46,7 @@ DateInput.prototype = {
   },
   
   selectMonth: function(date) {
-    this.currentMonth = date;
+    this.currentMonth = new Date(date.getFullYear(), date.getMonth(), 1);
     
     var rangeStart = this.rangeStart(date), rangeEnd = this.rangeEnd(date);
     var numDays = this.daysBetween(rangeStart, rangeEnd);
