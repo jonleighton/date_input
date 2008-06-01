@@ -20,7 +20,7 @@
 }
 .date_selector_ieframe {
   position: absolute;
-  z-index: 999999;
+  z-index: 99999;
   display: none;
 }
   .date_selector .month_nav {

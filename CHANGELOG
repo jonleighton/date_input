@@ -1,3 +1,9 @@
+Version 1.1.5
+-------------
+
+ * Bugfix - In IE 6, the iframe layer had a great z-index than the actual calendar,
+   so would obstruct it from view (#2683)
+
 Version 1.1.4
 -------------
 
