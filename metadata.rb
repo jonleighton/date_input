@@ -1,5 +1,5 @@
 NAME = "Date Input"
-VERSION = "1.1.4"
+VERSION = "1.1.5"
 JQUERY = "1.2"
 PLUGINS = {
   "Dimensions" => "http://plugins.jquery.com/files/dimensions_1.2.zip"
