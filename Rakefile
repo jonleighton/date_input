@@ -78,7 +78,7 @@ class PackageGenerator
     def metadata
       load_metadata unless self.class.const_defined? :Metadata
       Hash.new do |hash, key|
-        eval("Metadata::" + key.to_s.upcase)
+        eval("Metadata::" + key.to_s.upcase) rescue nil
       end
     end
     
@@ -110,9 +110,11 @@ class PackageGenerator
       header = "/*\n"
       header << metadata[:name] + " " + metadata[:version] + "\n"
       header << "Requires jQuery version: " + metadata[:jquery] + "\n"
-      header << "Requires plugins:" + "\n"
-      metadata[:plugins].each do |plugin, url|
-        header << "  * #{plugin} - #{url}\n"
+      unless metadata[:plugins].nil? || metadata[:plugins].empty?
+        header << "Requires plugins:" + "\n"
+        metadata[:plugins].each do |plugin, url|
+          header << "  * #{plugin} - #{url}\n"
+        end
       end
       header << "\n" + File.read(root_file("LICENCE")) + "*/\n\n"
     end
