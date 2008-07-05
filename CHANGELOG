@@ -1,3 +1,9 @@
+Version 1.1.6
+-------------
+
+ * Remove the requirement for the dimensions plugin, which is included in
+   jQuery 1.2.6
+
 Version 1.1.5
 -------------
 
