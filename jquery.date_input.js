@@ -53,7 +53,7 @@ DateInput.prototype = {
     var dayCells = "";
     
     for (var i = 0; i <= numDays; i++) {
-      var currentDay = new Date(rangeStart.getFullYear(), rangeStart.getMonth(), rangeStart.getDate() + i);
+      var currentDay = new Date(rangeStart.getFullYear(), rangeStart.getMonth(), rangeStart.getDate() + i, 12, 00);
       
       if (this.isFirstDayOfWeek(currentDay)) dayCells += "<tr>";
       
@@ -119,7 +119,7 @@ DateInput.prototype = {
   stringToDate: function(string) {
     var matches;
     if (matches = string.match(/^(\d{1,2}) ([^\s]+) (\d{4,4})$/)) {
-      return new Date(matches[3], this.shortMonthNum(matches[2]), matches[1]);
+      return new Date(matches[3], this.shortMonthNum(matches[2]), matches[1], 12, 00);
     } else {
       return null;
     };
