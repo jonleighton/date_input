@@ -1,3 +1,9 @@
+Version 1.1.7
+-------------
+
+ * Solve weird issue with duplicate and missing days in certain time zones (#2984,
+   thanks to Arsenicus)
+
 Version 1.1.6
 -------------
 
