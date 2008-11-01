@@ -3,6 +3,8 @@ Version 1.1.7
 
  * Solve weird issue with duplicate and missing days in certain time zones (#2984,
    thanks to Arsenicus)
+ * Insert the date picker directly after the input, so that the links in it can be
+   tabbed through. Listen for the Esc key and hide the date picker if it's pressed (#2276)
 
 Version 1.1.6
 -------------

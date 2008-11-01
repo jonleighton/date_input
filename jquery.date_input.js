@@ -5,7 +5,7 @@ function DateInput(el, opts) {
   $.extend(this, DateInput.DEFAULT_OPTS, opts);
   
   this.input = $(el);
-  this.bindMethodsToObj("show", "hide", "hideIfClickOutside", "selectDate", "prevMonth", "nextMonth");
+  this.bindMethodsToObj("show", "hide", "hideIfClickOutside", "hideOnEsc", "selectDate", "prevMonth", "nextMonth");
   
   this.build();
   this.selectDate();
@@ -32,7 +32,7 @@ DateInput.prototype = {
     });
     tableShell += "</tr></thead><tbody></tbody></table>";
     
-    this.dateSelector = this.rootLayers = $('<div class="date_selector"></div>').append(monthNav, tableShell).appendTo(document.body);
+    this.dateSelector = this.rootLayers = $('<div class="date_selector"></div>').append(monthNav, tableShell).insertAfter(this.input);
     
     if ($.browser.msie && $.browser.version < 7) {
       this.ieframe = $('<iframe class="date_selector_ieframe" frameborder="0" src="#"></iframe>').insertBefore(this.dateSelector);
@@ -101,17 +101,25 @@ DateInput.prototype = {
     this.rootLayers.css("display", "block");
     this.setPosition();
     this.input.unbind("focus", this.show);
-    $([window, document.body]).click(this.hideIfClickOutside);
+    $("a:last", this.dateSelector).blur(this.hide);
+    $([window, document.body]).click(this.hideIfClickOutside).keyup(this.hideOnEsc);
   },
   
   hide: function() {
     this.rootLayers.css("display", "none");
-    $([window, document.body]).unbind("click", this.hideIfClickOutside);
+    $([window, document.body]).unbind("click", this.hideIfClickOutside).unbind("keyup", this.hideOnEsc);
+    $("a:last", this.dateSelector).unbind("blur", this.hide);
     this.input.focus(this.show);
   },
   
   hideIfClickOutside: function(event) {
     if (event.target != this.input[0] && !this.insideSelector(event)) {
+      this.hide();
+    };
+  },
+  
+  hideOnEsc: function(event) {
+    if (event.keyCode == 27) {
       this.hide();
     };
   },
