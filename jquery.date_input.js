@@ -21,9 +21,9 @@ DateInput.prototype = {
   build: function() {
     this.monthNameSpan = $('<span class="month_name"></span>');
     var monthNav = $('<p class="month_nav"></p>').append(
-      $('<a href="#" class="prev">&laquo;</a>').click(this.prevMonth),
-      " ", this.monthNameSpan, " ",
-      $('<a href="#" class="next">&raquo;</a>').click(this.nextMonth)
+      $('<a href="#" class="prev">&laquo;</a> ').click(this.prevMonth),
+      this.monthNameSpan,
+      $(' <a href="#" class="next">&raquo;</a>').click(this.nextMonth)
     );
     
     var tableShell = "<table><thead><tr>";
