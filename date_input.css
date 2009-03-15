@@ -34,7 +34,7 @@
       display: block;
       text-align: center;
     }
-    .date_selector .month_nav a {
+    .prev, .next {
       display: block;
       position: absolute;
       top: 5px;
@@ -47,10 +47,10 @@
       font-size: 120%;
       overflow: hidden;
     }
-      .date_selector .month_nav a:hover, .date_selector .month_nav a:focus {
-        background: none;
-        color: #003C78;
-        text-decoration: none;
+      .prev:hover, .next:hover {
+        background: #003C78;
+        color: white;
+        cursor: pointer;
       }
     .date_selector .prev {
       left: 5px;
@@ -81,23 +81,20 @@
     .date_selector td.unselected_month {
       color: #ccc;
     }
-      .date_selector td a {
-        display: block;
+      .date_selector td {
         text-decoration: none !important;
-        width: 100%;
-        height: 100%;
         line-height: 2em;
         color: #003C78;
         text-align: center;
       }
-      .date_selector td.today a {
+      .date_selector td.today {
         background: #FFFEB3;
       }
-      .date_selector td.selected a {
+      .date_selector td.selected {
         background: #D8DFE5;
         font-weight: bold;
       }
-        .date_selector td a:hover {
+        .date_selector td:hover {
           background: #003C78;
           color: white;
         }
