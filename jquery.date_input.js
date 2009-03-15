@@ -34,8 +34,8 @@ DateInput.prototype = {
     });
     tableShell += "</tr></thead><tbody></tbody></table>";
     
-    this.rootLayers = $(this.input).wrap(document.createElement('span'));
-    this.dateSelector = $('<div class="date_selector"></div>').append(monthNav, tableShell).insertAfter(this.input);
+    this.wrapper = $(this.input).wrap(document.createElement('div'));
+    this.dateSelector = this.rootLayers = $('<div class="date_selector"></div>').append(monthNav, tableShell).insertAfter(this.input);
     
     if ($.browser.msie && $.browser.version < 7) {
       this.ieframe = $('<iframe class="date_selector_ieframe" frameborder="0" src="#"></iframe>').insertBefore(this.dateSelector);
@@ -108,14 +108,14 @@ DateInput.prototype = {
   },
   
   show: function() {
-    this.dateSelector.css("display", "block");
+    this.rootLayers.css("display", "block");
     this.setPosition();
     this.input.unbind("focus", this.show).keydown(this.keydownHandler);
     $([window, document.body]).click(this.hideIfClickOutside).keyup(this.hideOnEscOrTab);
   },
   
   hide: function() {
-    this.dateSelector.css("display", "none");
+    this.rootLayers.css("display", "none");
     $([window, document.body]).unbind("click", this.hideIfClickOutside).unbind("keyup", this.hideOnEscOrTab);
     this.input.unbind("keydown", this.keydownHandler).focus(this.show);
   },
@@ -177,7 +177,7 @@ DateInput.prototype = {
   
   setPosition: function() {
     var offset = this.input.offset();
-    this.dateSelector.css({
+    this.rootLayers.css({
       top: offset.top + this.input.outerHeight(),
       left: offset.left
     });
