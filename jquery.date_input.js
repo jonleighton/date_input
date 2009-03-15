@@ -5,7 +5,7 @@ function DateInput(el, opts) {
   $.extend(this, DateInput.DEFAULT_OPTS, opts);
   
   this.input = $(el);
-  this.bindMethodsToObj("show", "hide", "hideIfClickOutside", "hideOnEscOrTab", "keydownHandler", "selectDate", "prevMonth", "nextMonth");
+  this.bindMethodsToObj("show", "hide", "hideIfClickOutside", "keydownHandler", "selectDate", "prevMonth", "nextMonth");
   
   this.build();
   this.selectDate();
@@ -111,12 +111,12 @@ DateInput.prototype = {
     this.rootLayers.css("display", "block");
     this.setPosition();
     this.input.unbind("focus", this.show).keydown(this.keydownHandler);
-    $([window, document.body]).click(this.hideIfClickOutside).keyup(this.hideOnEscOrTab);
+    $([window, document.body]).click(this.hideIfClickOutside);
   },
   
   hide: function() {
     this.rootLayers.css("display", "none");
-    $([window, document.body]).unbind("click", this.hideIfClickOutside).unbind("keyup", this.hideOnEscOrTab);
+    $([window, document.body]).unbind("click", this.hideIfClickOutside);
     this.input.unbind("keydown", this.keydownHandler).focus(this.show);
   },
   
@@ -126,15 +126,11 @@ DateInput.prototype = {
     };
   },
   
-  hideOnEsc: function(event) {
-    if (event.keyCode == 27 || event.keyCode == 9)
-      this.hide();
-  },
-  
   keydownHandler: function(event) {
     switch (event.keyCode)
     {
       case 9: // tab
+      case 27: // esc
         this.hide();
         return;
       break;
