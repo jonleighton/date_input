@@ -5,7 +5,7 @@ function DateInput(el, opts) {
   $.extend(this, DateInput.DEFAULT_OPTS, opts);
   
   this.input = $(el);
-  this.bindMethodsToObj("show", "hide", "hideIfClickOutside", "hideOnEsc", "selectDate", "prevMonth", "nextMonth");
+  this.bindMethodsToObj("show", "hide", "hideIfClickOutside", "hideOnEsc", "keydownHandler", "selectDate", "prevMonth", "nextMonth");
   
   this.build();
   this.selectDate();
@@ -34,7 +34,8 @@ DateInput.prototype = {
     });
     tableShell += "</tr></thead><tbody></tbody></table>";
     
-    this.dateSelector = this.rootLayers = $('<div class="date_selector"></div>').append(monthNav, tableShell).insertAfter(this.input);
+    this.rootLayers = $(this.input).wrap(document.createElement('span'));
+		this.dateSelector = $('<div class="date_selector"></div>').append(monthNav, tableShell).insertAfter(this.input);
     
     if ($.browser.msie && $.browser.version < 7) {
       this.ieframe = $('<iframe class="date_selector_ieframe" frameborder="0" src="#"></iframe>').insertBefore(this.dateSelector);
@@ -46,11 +47,17 @@ DateInput.prototype = {
     // The anon function ensures the event is discarded
     this.input.change(this.bindToObj(function() { this.selectDate(); }));
   },
-  
+
   selectMonth: function(date) {
-    this.currentMonth = new Date(date.getFullYear(), date.getMonth(), 1);
-    
+    this.currentMonth = date;
+   
     var rangeStart = this.rangeStart(date), rangeEnd = this.rangeEnd(date);
+    if (this.lastRange == rangeStart+' '+rangeEnd) {
+			$('td', this.tbody).removeClass("selected");
+			return;
+    }
+    this.lastRange = rangeStart+' '+rangeEnd;
+
     var numDays = this.daysBetween(rangeStart, rangeEnd);
     var dayCells = "";
     
@@ -60,7 +67,7 @@ DateInput.prototype = {
       if (this.isFirstDayOfWeek(currentDay)) dayCells += "<tr>";
       
       if (currentDay.getMonth() == date.getMonth()) {
-        dayCells += '<td date="' + this.dateToString(currentDay) + '"><a href="#">' + currentDay.getDate() + '</a></td>';
+        dayCells += '<td class="selectable_day" date="' + this.dateToString(currentDay) + '">' + currentDay.getDate() + '</td>';
       } else {
         dayCells += '<td class="unselected_month" date="' + this.dateToString(currentDay) + '">' + currentDay.getDate() + '</td>';
       };
@@ -71,8 +78,8 @@ DateInput.prototype = {
     this.monthNameSpan.empty().append(this.monthName(date) + " " + date.getFullYear());
     this.tbody.empty().append(dayCells);
     
-    $("a", this.tbody).click(this.bindToObj(function(event) {
-      this.selectDate(this.stringToDate($(event.target).parent().attr("date")));
+    $(".selectable_day", this.tbody).click(this.bindToObj(function(event) {
+      this.selectDate(this.stringToDate($(event.target).attr("date")));
       this.hide();
       return false;
     }));
@@ -96,22 +103,21 @@ DateInput.prototype = {
       };
     } else {
       this.selectMonth(new Date());
+      this.selectedDate = new Date(); // for keyboard handler to work without a prior mouse selection
     };
   },
   
   show: function() {
-    this.rootLayers.css("display", "block");
+    this.dateSelector.css("display", "block");
     this.setPosition();
-    this.input.unbind("focus", this.show);
-    $("a:last", this.dateSelector).blur(this.hide);
+    this.input.unbind("focus", this.show).keydown(this.keydownHandler);
     $([window, document.body]).click(this.hideIfClickOutside).keyup(this.hideOnEsc);
   },
   
   hide: function() {
-    this.rootLayers.css("display", "none");
+    this.dateSelector.css("display", "none");
     $([window, document.body]).unbind("click", this.hideIfClickOutside).unbind("keyup", this.hideOnEsc);
-    $("a:last", this.dateSelector).unbind("blur", this.hide);
-    this.input.focus(this.show);
+    this.input.unbind("keydown", this.keydownHandler).focus(this.show);
   },
   
   hideIfClickOutside: function(event) {
@@ -121,10 +127,40 @@ DateInput.prototype = {
   },
   
   hideOnEsc: function(event) {
-    if (event.keyCode == 27) {
+    if (event.keyCode == 27)
       this.hide();
-    };
   },
+  
+	keydownHandler: function(event) {
+		switch (event.keyCode)
+		{
+			case 9: // tab
+				this.hide();
+				return;
+			break;
+			case 33: // page up
+				this.moveMonthBy(-1);
+			break;
+			case 34: // page down
+				this.moveMonthBy(1);
+			break;
+			case 38: // up
+				this.moveDateBy(-7);
+			break;
+			case 40: // down
+				this.moveDateBy(7);
+			break;
+			case 37: // left
+				this.moveDateBy(-1);
+			break;
+			case 39: // right
+				this.moveDateBy(1);
+			break;
+			default:
+				return;
+		}
+		event.preventDefault();
+	},
   
   stringToDate: function(string) {
     var matches;
@@ -141,7 +177,7 @@ DateInput.prototype = {
   
   setPosition: function() {
     var offset = this.input.offset();
-    this.rootLayers.css({
+    this.dateSelector.css({
       top: offset.top + this.input.outerHeight(),
       left: offset.left
     });
@@ -153,9 +189,13 @@ DateInput.prototype = {
       });
     };
   },
+
+  moveDateBy: function(amount) {
+    this.selectDate(new Date(this.selectedDate.setDate(this.selectedDate.getDate() + amount)));
+  },
   
   moveMonthBy: function(amount) {
-    this.selectMonth(new Date(this.currentMonth.setMonth(this.currentMonth.getMonth() + amount)));
+    this.selectDate(new Date(this.selectedDate.setMonth(this.currentMonth.getMonth() + amount)));
   },
   
   prevMonth: function() {
