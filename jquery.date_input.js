@@ -5,7 +5,7 @@ function DateInput(el, opts) {
   $.extend(this, DateInput.DEFAULT_OPTS, opts);
   
   this.input = $(el);
-  this.bindMethodsToObj("show", "hide", "hideIfClickOutside", "hideOnEsc", "keydownHandler", "selectDate", "prevMonth", "nextMonth");
+  this.bindMethodsToObj("show", "hide", "hideIfClickOutside", "hideOnEscOrTab", "keydownHandler", "selectDate", "prevMonth", "nextMonth");
   
   this.build();
   this.selectDate();
@@ -111,12 +111,12 @@ DateInput.prototype = {
     this.dateSelector.css("display", "block");
     this.setPosition();
     this.input.unbind("focus", this.show).keydown(this.keydownHandler);
-    $([window, document.body]).click(this.hideIfClickOutside).keyup(this.hideOnEsc);
+    $([window, document.body]).click(this.hideIfClickOutside).keyup(this.hideOnEscOrTab);
   },
   
   hide: function() {
     this.dateSelector.css("display", "none");
-    $([window, document.body]).unbind("click", this.hideIfClickOutside).unbind("keyup", this.hideOnEsc);
+    $([window, document.body]).unbind("click", this.hideIfClickOutside).unbind("keyup", this.hideOnEscOrTab);
     this.input.unbind("keydown", this.keydownHandler).focus(this.show);
   },
   
@@ -127,7 +127,7 @@ DateInput.prototype = {
   },
   
   hideOnEsc: function(event) {
-    if (event.keyCode == 27)
+    if (event.keyCode == 27 || event.keyCode == 9)
       this.hide();
   },
   
