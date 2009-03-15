@@ -35,7 +35,7 @@ DateInput.prototype = {
     tableShell += "</tr></thead><tbody></tbody></table>";
     
     this.rootLayers = $(this.input).wrap(document.createElement('span'));
-		this.dateSelector = $('<div class="date_selector"></div>').append(monthNav, tableShell).insertAfter(this.input);
+    this.dateSelector = $('<div class="date_selector"></div>').append(monthNav, tableShell).insertAfter(this.input);
     
     if ($.browser.msie && $.browser.version < 7) {
       this.ieframe = $('<iframe class="date_selector_ieframe" frameborder="0" src="#"></iframe>').insertBefore(this.dateSelector);
@@ -53,8 +53,8 @@ DateInput.prototype = {
    
     var rangeStart = this.rangeStart(date), rangeEnd = this.rangeEnd(date);
     if (this.lastRange == rangeStart+' '+rangeEnd) {
-			$('td', this.tbody).removeClass("selected");
-			return;
+      $('td', this.tbody).removeClass("selected");
+      return;
     }
     this.lastRange = rangeStart+' '+rangeEnd;
 
@@ -131,36 +131,36 @@ DateInput.prototype = {
       this.hide();
   },
   
-	keydownHandler: function(event) {
-		switch (event.keyCode)
-		{
-			case 9: // tab
-				this.hide();
-				return;
-			break;
-			case 33: // page up
-				this.moveMonthBy(-1);
-			break;
-			case 34: // page down
-				this.moveMonthBy(1);
-			break;
-			case 38: // up
-				this.moveDateBy(-7);
-			break;
-			case 40: // down
-				this.moveDateBy(7);
-			break;
-			case 37: // left
-				this.moveDateBy(-1);
-			break;
-			case 39: // right
-				this.moveDateBy(1);
-			break;
-			default:
-				return;
-		}
-		event.preventDefault();
-	},
+  keydownHandler: function(event) {
+    switch (event.keyCode)
+    {
+      case 9: // tab
+        this.hide();
+        return;
+      break;
+      case 33: // page up
+        this.moveMonthBy(-1);
+      break;
+      case 34: // page down
+        this.moveMonthBy(1);
+      break;
+      case 38: // up
+        this.moveDateBy(-7);
+      break;
+      case 40: // down
+        this.moveDateBy(7);
+      break;
+      case 37: // left
+        this.moveDateBy(-1);
+      break;
+      case 39: // right
+        this.moveDateBy(1);
+      break;
+      default:
+        return;
+    }
+    event.preventDefault();
+  },
   
   stringToDate: function(string) {
     var matches;
