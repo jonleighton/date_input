@@ -19,12 +19,14 @@ DateInput.DEFAULT_OPTS = {
 };
 DateInput.prototype = {
   build: function() {
-    this.monthNameSpan = $('<span class="month_name"></span>');
-    var monthNav = $('<p class="month_nav"></p>').append(
-      $('<a href="#" class="prev">&laquo;</a> ').click(this.prevMonth),
-      this.monthNameSpan,
-      $(' <a href="#" class="next">&raquo;</a>').click(this.nextMonth)
-    );
+    var monthNav = $('<p class="month_nav">' +
+      '<a href="#" class="prev">&laquo;</a>' +
+      ' <span class="month_name"></span> ' +
+      '<a href="#" class="next">&raquo;</a>' +
+      '</p>');
+    this.monthNameSpan = $(".month_name", monthNav);
+    $(".prev", monthNav).click(this.prevMonth);
+    $(".next", monthNav).click(this.nextMonth);
     
     var tableShell = "<table><thead><tr>";
     $(this.adjustDays(this.short_day_names)).each(function() {
