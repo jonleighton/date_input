@@ -44,8 +44,8 @@ DateInput.prototype = {
     
     this.tbody = $("tbody", this.dateSelector);
     
-    // The anon function ensures the event is discarded
     this.input.change(this.bindToObj(function() { this.selectDate(); }));
+    this.selectDate();
   },
 
   selectMonth: function(date) {
@@ -79,9 +79,7 @@ DateInput.prototype = {
     this.tbody.empty().append(dayCells);
     
     $(".selectable_day", this.tbody).click(this.bindToObj(function(event) {
-      this.selectDate(this.stringToDate($(event.target).attr("date")));
-      this.hide();
-      return false;
+      this.changeInput($(event.target).attr("date"));
     }));
     
     $("td[date=" + this.dateToString(new Date()) + "]", this.tbody).addClass("today");
@@ -91,20 +89,17 @@ DateInput.prototype = {
     if (typeof(date) == "undefined") {
       date = this.stringToDate(this.input.val());
     };
+    if (!date) date = new Date();
     
-    if (date) {
-      this.selectedDate = date;
-      this.selectMonth(date);
-      var stringDate = this.dateToString(date);
-      $('td[date=' + stringDate + ']', this.tbody).addClass("selected");
-      
-      if (this.input.val() != stringDate) {
-        this.input.val(stringDate).change();
-      };
-    } else {
-      this.selectMonth(new Date());
-      this.selectedDate = new Date(); // for keyboard handler to work without a prior mouse selection
-    };
+    this.selectedDate = date;
+    this.selectMonth(this.selectedDate);
+    this.selectedDateString = this.dateToString(this.selectedDate);
+    $('td[date=' + this.selectedDateString + ']', this.tbody).addClass("selected");
+  },
+  
+  changeInput: function(dateString) {
+    this.input.val(dateString).change();
+    this.hide();
   },
   
   show: function() {
@@ -133,6 +128,9 @@ DateInput.prototype = {
       case 27: // esc
         this.hide();
         return;
+      break;
+      case 13: // enter
+        this.changeInput(this.selectedDateString);
       break;
       case 33: // page up
         this.moveMonthBy(-1);
