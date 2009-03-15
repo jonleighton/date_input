@@ -49,7 +49,7 @@ DateInput.prototype = {
   },
 
   selectMonth: function(date) {
-    this.currentMonth = date;
+    this.currentMonth = new Date(date.getFullYear(), date.getMonth(), 1);
    
     var rangeStart = this.rangeStart(date), rangeEnd = this.rangeEnd(date);
     if (this.lastRange == rangeStart+' '+rangeEnd) {
@@ -83,6 +83,7 @@ DateInput.prototype = {
     }));
     
     $("td[date=" + this.dateToString(new Date()) + "]", this.tbody).addClass("today");
+    $('td[date=' + this.selectedDateString + ']', this.tbody).addClass("selected");
   },
   
   selectDate: function(date) {
@@ -133,10 +134,10 @@ DateInput.prototype = {
         this.changeInput(this.selectedDateString);
       break;
       case 33: // page up
-        this.moveMonthBy(-1);
+        this.moveDateMonthBy(-1);
       break;
       case 34: // page down
-        this.moveMonthBy(1);
+        this.moveDateMonthBy(1);
       break;
       case 38: // up
         this.moveDateBy(-7);
@@ -189,6 +190,10 @@ DateInput.prototype = {
   },
   
   moveMonthBy: function(amount) {
+    this.selectMonth(new Date(this.currentMonth.setMonth(this.currentMonth.getMonth() + amount)));
+  },
+  
+  moveDateMonthBy: function(amount) {
     this.selectDate(new Date(this.selectedDate.setMonth(this.currentMonth.getMonth() + amount)));
   },
   
