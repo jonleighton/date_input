@@ -20,9 +20,9 @@ DateInput.DEFAULT_OPTS = {
 DateInput.prototype = {
   build: function() {
     var monthNav = $('<p class="month_nav">' +
-      '<a href="#" class="prev">&laquo;</a>' +
+      '<a href="#" class="prev" title="[Page-Up]">&laquo;</a>' +
       ' <span class="month_name"></span> ' +
-      '<a href="#" class="next">&raquo;</a>' +
+      '<a href="#" class="next" title="[Page-Down]">&raquo;</a>' +
       '</p>');
     this.monthNameSpan = $(".month_name", monthNav);
     $(".prev", monthNav).click(this.prevMonth);
@@ -48,40 +48,39 @@ DateInput.prototype = {
   },
 
   selectMonth: function(date) {
-    this.currentMonth = new Date(date.getFullYear(), date.getMonth(), 1);
-   
-    var rangeStart = this.rangeStart(date), rangeEnd = this.rangeEnd(date);
-    if (this.lastRange == rangeStart+' '+rangeEnd) {
-      $('td', this.tbody).removeClass("selected");
-      return;
-    }
-    this.lastRange = rangeStart+' '+rangeEnd;
-
-    var numDays = this.daysBetween(rangeStart, rangeEnd);
-    var dayCells = "";
+    var newMonth = new Date(date.getFullYear(), date.getMonth(), 1);
     
-    for (var i = 0; i <= numDays; i++) {
-      var currentDay = new Date(rangeStart.getFullYear(), rangeStart.getMonth(), rangeStart.getDate() + i, 12, 00);
+    if (this.currentMonth != newMonth) {
+      this.currentMonth = newMonth;
       
-      if (this.isFirstDayOfWeek(currentDay)) dayCells += "<tr>";
+      var rangeStart = this.rangeStart(date), rangeEnd = this.rangeEnd(date);
+      var numDays = this.daysBetween(rangeStart, rangeEnd);
+      var dayCells = "";
       
-      if (currentDay.getMonth() == date.getMonth()) {
-        dayCells += '<td class="selectable_day" date="' + this.dateToString(currentDay) + '">' + currentDay.getDate() + '</td>';
-      } else {
-        dayCells += '<td class="unselected_month" date="' + this.dateToString(currentDay) + '">' + currentDay.getDate() + '</td>';
+      for (var i = 0; i <= numDays; i++) {
+        var currentDay = new Date(rangeStart.getFullYear(), rangeStart.getMonth(), rangeStart.getDate() + i, 12, 00);
+        
+        if (this.isFirstDayOfWeek(currentDay)) dayCells += "<tr>";
+        
+        if (currentDay.getMonth() == date.getMonth()) {
+          dayCells += '<td class="selectable_day" date="' + this.dateToString(currentDay) + '">' + currentDay.getDate() + '</td>';
+        } else {
+          dayCells += '<td class="unselected_month" date="' + this.dateToString(currentDay) + '">' + currentDay.getDate() + '</td>';
+        };
+        
+        if (this.isLastDayOfWeek(currentDay)) dayCells += "</tr>";
       };
       
-      if (this.isLastDayOfWeek(currentDay)) dayCells += "</tr>";
+      this.monthNameSpan.empty().append(this.monthName(date) + " " + date.getFullYear());
+      this.tbody.empty().append(dayCells);
+      
+      $(".selectable_day", this.tbody).click(this.bindToObj(function(event) {
+        this.changeInput($(event.target).attr("date"));
+      }));
+      
+      $("td[date=" + this.dateToString(new Date()) + "]", this.tbody).addClass("today");
     };
     
-    this.monthNameSpan.empty().append(this.monthName(date) + " " + date.getFullYear());
-    this.tbody.empty().append(dayCells);
-    
-    $(".selectable_day", this.tbody).click(this.bindToObj(function(event) {
-      this.changeInput($(event.target).attr("date"));
-    }));
-    
-    $("td[date=" + this.dateToString(new Date()) + "]", this.tbody).addClass("today");
     $('td[date=' + this.selectedDateString + ']', this.tbody).addClass("selected");
   },
   
@@ -92,9 +91,8 @@ DateInput.prototype = {
     if (!date) date = new Date();
     
     this.selectedDate = date;
-    this.selectMonth(this.selectedDate);
     this.selectedDateString = this.dateToString(this.selectedDate);
-    $('td[date=' + this.selectedDateString + ']', this.tbody).addClass("selected");
+    this.selectMonth(this.selectedDate);
   },
   
   changeInput: function(dateString) {
@@ -104,15 +102,17 @@ DateInput.prototype = {
   
   show: function() {
     this.rootLayers.css("display", "block");
-    $([window, document.body]).click(this.hideIfClickOutside);
-    this.input.unbind("focus", this.show).keydown(this.keydownHandler);
+    $(window, document.body).click(this.hideIfClickOutside);
+    this.input.unbind("focus", this.show);
+    $(window).keydown(this.keydownHandler);
     this.setPosition();
   },
   
   hide: function() {
     this.rootLayers.css("display", "none");
-    $([window, document.body]).unbind("click", this.hideIfClickOutside);
-    this.input.focus(this.show).unbind("keydown", this.keydownHandler);
+    $(window, document.body).unbind("click", this.hideIfClickOutside);
+    this.input.focus(this.show);
+    $(window).unbind("keydown", this.keydownHandler);
   },
   
   hideIfClickOutside: function(event) {
