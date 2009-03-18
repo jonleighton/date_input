@@ -50,7 +50,8 @@ DateInput.prototype = {
   selectMonth: function(date) {
     var newMonth = new Date(date.getFullYear(), date.getMonth(), 1);
     
-    if (this.currentMonth != newMonth) {
+    if (!this.currentMonth || !(this.currentMonth.getFullYear() == newMonth.getFullYear() &&
+                                this.currentMonth.getMonth() == newMonth.getMonth())) {
       this.currentMonth = newMonth;
       
       var rangeStart = this.rangeStart(date), rangeEnd = this.rangeEnd(date);
@@ -81,6 +82,7 @@ DateInput.prototype = {
       $("td[date=" + this.dateToString(new Date()) + "]", this.tbody).addClass("today");
     };
     
+    $('.selected', this.tbody).removeClass("selected");
     $('td[date=' + this.selectedDateString + ']', this.tbody).addClass("selected");
   },
   
