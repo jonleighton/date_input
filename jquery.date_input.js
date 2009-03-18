@@ -34,7 +34,6 @@ DateInput.prototype = {
     });
     tableShell += "</tr></thead><tbody></tbody></table>";
     
-    this.wrapper = $(this.input).wrap(document.createElement('div'));
     this.dateSelector = this.rootLayers = $('<div class="date_selector"></div>').append(monthNav, tableShell).insertAfter(this.input);
     
     if ($.browser.msie && $.browser.version < 7) {
@@ -105,15 +104,15 @@ DateInput.prototype = {
   
   show: function() {
     this.rootLayers.css("display", "block");
-    this.setPosition();
-    this.input.unbind("focus", this.show).keydown(this.keydownHandler);
     $([window, document.body]).click(this.hideIfClickOutside);
+    this.input.unbind("focus", this.show).keydown(this.keydownHandler);
+    this.setPosition();
   },
   
   hide: function() {
     this.rootLayers.css("display", "none");
     $([window, document.body]).unbind("click", this.hideIfClickOutside);
-    this.input.unbind("keydown", this.keydownHandler).focus(this.show);
+    this.input.focus(this.show).unbind("keydown", this.keydownHandler);
   },
   
   hideIfClickOutside: function(event) {
