@@ -23,43 +23,51 @@
   z-index: 99999;
   display: none;
 }
-  .date_selector .month_nav {
-    margin: 0 0 5px 0;
+  .date_selector .month_nav, .date_selector .year_nav {
+    margin: 0 0 3px 0;
     padding: 0;
     display: block;
+    position: relative;
+    text-align: center;
   }
-    .date_selector .month_name {
-      font-weight: bold;
-      line-height: 20px;
-      display: block;
-      text-align: center;
-    }
-    .date_selector .month_nav .button {
-      display: block;
-      position: absolute;
-      top: 5px;
-      width: 20px;
-      height: 20px;
-      line-height: 17px;
-      font-weight: bold;
+  .date_selector .month_nav {
+    float: left;
+    width: 55%;
+  }
+  .date_selector .year_nav {
+    float: right;
+    width: 35%;
+  }
+  .date_selector .month_name, .date_selector .year_name {
+    font-weight: bold;
+    line-height: 20px;
+  }
+  .date_selector .button {
+    display: block;
+    position: absolute;
+    top: 0;
+    width: 18px;
+    height: 18px;
+    line-height: 17px;
+    font-weight: bold;
+    color: #003C78;
+    text-align: center;
+    font-size: 120%;
+    overflow: hidden;
+    border: 1px solid #F2F2F2;
+  }
+    .date_selector .button:hover {
+      background: none;
       color: #003C78;
-      text-align: center;
-      font-size: 120%;
-      overflow: hidden;
-      border: 1px solid #F2F2F2;
+      cursor: pointer;
+      border-color: #ccc;
     }
-      .date_selector .month_nav .button:hover {
-        background: none;
-        color: #003C78;
-        cursor: pointer;
-        border-color: #ccc;
-      }
-    .date_selector .prev {
-      left: 5px;
-    }
-    .date_selector .next {
-      right: 5px;
-    }
+  .date_selector .prev {
+    left: 0;
+  }
+  .date_selector .next {
+    right: 0;
+  }
   .date_selector table {
     border-spacing: 0;
     border-collapse: collapse;

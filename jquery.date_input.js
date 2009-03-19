@@ -25,12 +25,17 @@ DateInput.prototype = {
       '<span class="button next" title="[Page-Down]">&raquo;</span>' +
       '</p>');
     this.monthNameSpan = $(".month_name", monthNav);
-    $(".prev", monthNav).click(this.bindToObj(function() {
-      this.moveMonthBy(-1);
-    }));
-    $(".next", monthNav).click(this.bindToObj(function() {
-      this.moveMonthBy(1);
-    }));
+    $(".prev", monthNav).click(this.bindToObj(function() { this.moveMonthBy(-1); }));
+    $(".next", monthNav).click(this.bindToObj(function() { this.moveMonthBy(1); }));
+    
+    var yearNav = $('<p class="year_nav">' +
+      '<span class="button prev" title="[Ctrl+Page-Up]">&laquo;</span>' +
+      ' <span class="year_name"></span> ' +
+      '<span class="button next" title="[Ctrl+Page-Down]">&raquo;</span>' +
+      '</p>');
+    this.yearNameSpan = $(".year_name", yearNav);
+    $(".prev", yearNav).click(this.bindToObj(function() { this.moveMonthBy(-12); }));
+    $(".next", yearNav).click(this.bindToObj(function() { this.moveMonthBy(12); }));
     
     var tableShell = "<table><thead><tr>";
     $(this.adjustDays(this.short_day_names)).each(function() {
@@ -38,7 +43,7 @@ DateInput.prototype = {
     });
     tableShell += "</tr></thead><tbody></tbody></table>";
     
-    this.dateSelector = this.rootLayers = $('<div class="date_selector"></div>').append(monthNav, tableShell).insertAfter(this.input);
+    this.dateSelector = this.rootLayers = $('<div class="date_selector"></div>').append(monthNav, yearNav, tableShell).insertAfter(this.input);
     
     if ($.browser.msie && $.browser.version < 7) {
       this.ieframe = $('<iframe class="date_selector_ieframe" frameborder="0" src="#"></iframe>').insertBefore(this.dateSelector);
@@ -76,7 +81,8 @@ DateInput.prototype = {
         if (this.isLastDayOfWeek(currentDay)) dayCells += "</tr>";
       };
       
-      this.monthNameSpan.empty().append(this.monthName(date) + " " + date.getFullYear());
+      this.monthNameSpan.empty().append(this.monthName(date));
+      this.yearNameSpan.empty().append(this.currentMonth.getFullYear());
       this.tbody.empty().append(dayCells);
       
       $(".selectable_day", this.tbody).click(this.bindToObj(function(event) {
