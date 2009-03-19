@@ -195,7 +195,12 @@ DateInput.prototype = {
   },
   
   moveDateMonthBy: function(amount) {
-    this.selectDate(new Date(this.selectedDate.setMonth(this.currentMonth.getMonth() + amount)));
+    var newDate = new Date(this.selectedDate.getFullYear(), this.selectedDate.getMonth() + amount, this.selectedDate.getDate());
+    if (newDate.getMonth() == this.selectedDate.getMonth() + amount + 1) {
+      // We have moved too far. For instance 31st March + 1 month = 1st May, not 30th April
+      newDate.setDate(0);
+    };
+    this.selectDate(newDate);
   },
   
   prevMonth: function() {
