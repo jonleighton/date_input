@@ -5,7 +5,7 @@ function DateInput(el, opts) {
   $.extend(this, DateInput.DEFAULT_OPTS, opts);
   
   this.input = $(el);
-  this.bindMethodsToObj("show", "hide", "hideIfClickOutside", "keydownHandler", "selectDate", "prevMonth", "nextMonth");
+  this.bindMethodsToObj("show", "hide", "hideIfClickOutside", "keydownHandler", "selectDate");
   
   this.build();
   this.selectDate();
@@ -20,13 +20,17 @@ DateInput.DEFAULT_OPTS = {
 DateInput.prototype = {
   build: function() {
     var monthNav = $('<p class="month_nav">' +
-      '<a href="#" class="prev" title="[Page-Up]">&laquo;</a>' +
+      '<span class="button prev" title="[Page-Up]">&laquo;</span>' +
       ' <span class="month_name"></span> ' +
-      '<a href="#" class="next" title="[Page-Down]">&raquo;</a>' +
+      '<span class="button next" title="[Page-Down]">&raquo;</span>' +
       '</p>');
     this.monthNameSpan = $(".month_name", monthNav);
-    $(".prev", monthNav).click(this.prevMonth);
-    $(".next", monthNav).click(this.nextMonth);
+    $(".prev", monthNav).click(this.bindToObj(function() {
+      this.moveMonthBy(-1);
+    }));
+    $(".next", monthNav).click(this.bindToObj(function() {
+      this.moveMonthBy(1);
+    }));
     
     var tableShell = "<table><thead><tr>";
     $(this.adjustDays(this.short_day_names)).each(function() {
@@ -187,11 +191,13 @@ DateInput.prototype = {
   },
 
   moveDateBy: function(amount) {
-    this.selectDate(new Date(this.selectedDate.setDate(this.selectedDate.getDate() + amount)));
+    var newDate = new Date(this.selectedDate.getFullYear(), this.selectedDate.getMonth(), this.selectedDate.getDate() + amount);
+    this.selectDate(newDate);
   },
   
   moveMonthBy: function(amount) {
-    this.selectMonth(new Date(this.currentMonth.setMonth(this.currentMonth.getMonth() + amount)));
+    var newMonth = new Date(this.currentMonth.getFullYear(), this.currentMonth.getMonth() + amount, this.currentMonth.getDate());
+    this.selectMonth(newMonth);
   },
   
   moveDateMonthBy: function(amount) {
@@ -201,16 +207,6 @@ DateInput.prototype = {
       newDate.setDate(0);
     };
     this.selectDate(newDate);
-  },
-  
-  prevMonth: function() {
-    this.moveMonthBy(-1);
-    return false;
-  },
-  
-  nextMonth: function() {
-    this.moveMonthBy(1);
-    return false;
   },
   
   monthName: function(date) {

@@ -34,7 +34,7 @@
       display: block;
       text-align: center;
     }
-    .prev, .next {
+    .date_selector .month_nav .button {
       display: block;
       position: absolute;
       top: 5px;
@@ -46,11 +46,13 @@
       text-align: center;
       font-size: 120%;
       overflow: hidden;
+      border: 1px solid #F2F2F2;
     }
-      .prev:hover, .next:hover {
-        background: #003C78;
-        color: white;
+      .date_selector .month_nav .button:hover {
+        background: none;
+        color: #003C78;
         cursor: pointer;
+        border-color: #ccc;
       }
     .date_selector .prev {
       left: 5px;
