@@ -145,10 +145,10 @@ DateInput.prototype = {
         this.changeInput(this.selectedDateString);
       break;
       case 33: // page up
-        this.moveDateMonthBy(-1);
+        this.moveDateMonthBy(event.ctrlKey ? -12 : -1);
       break;
       case 34: // page down
-        this.moveDateMonthBy(1);
+        this.moveDateMonthBy(event.ctrlKey ? 12 : 1);
       break;
       case 38: // up
         this.moveDateBy(-7);
