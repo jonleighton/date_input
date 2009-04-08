@@ -83,28 +83,21 @@
       line-height: 2em;
       text-align: center;
       white-space: nowrap;
+      color: #003C78;
       background: white;
+      cursor: pointer;
     }
     .date_selector td.today {
-      background: #FFFED9;
+      background: #FFFEB3;
     }
     .date_selector td.unselected_month {
       color: #ccc;
     }
-      .date_selector td {
-        text-decoration: none !important;
-        line-height: 2em;
-        color: #003C78;
-        text-align: center;
-      }
-      .date_selector td.today {
-        background: #FFFEB3;
-      }
-      .date_selector td.selected {
-        background: #D8DFE5;
-        font-weight: bold;
-      }
-        .date_selector td.selectable_day:hover {
-          background: #003C78;
-          color: white;
-        }
+    .date_selector td.selectable_day:hover {
+      background: #003C78;
+      color: white;
+    }
+    .date_selector td.selected {
+      background: #D8DFE5;
+      font-weight: bold;
+    }
