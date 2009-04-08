@@ -127,17 +127,17 @@ DateInput.prototype = {
   
   show: function() {
     this.rootLayers.css("display", "block");
-    $(window, document.body).click(this.hideIfClickOutside);
+    $([window, document.body]).click(this.hideIfClickOutside);
     this.input.unbind("focus", this.show);
-    $(window).keydown(this.keydownHandler);
+    $(document.body).keydown(this.keydownHandler);
     this.setPosition();
   },
   
   hide: function() {
     this.rootLayers.css("display", "none");
-    $(window, document.body).unbind("click", this.hideIfClickOutside);
+    $([window, document.body]).unbind("click", this.hideIfClickOutside);
     this.input.focus(this.show);
-    $(window).unbind("keydown", this.keydownHandler);
+    $(document.body).unbind("keydown", this.keydownHandler);
   },
   
   // We should hide the date selector if a click event happens outside of it
