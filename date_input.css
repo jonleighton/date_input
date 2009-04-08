@@ -85,13 +85,15 @@
       white-space: nowrap;
       color: #003C78;
       background: white;
-      cursor: pointer;
     }
     .date_selector td.today {
       background: #FFFEB3;
     }
     .date_selector td.unselected_month {
       color: #ccc;
+    }
+    .date_selector td.selectable_day {
+      cursor: pointer;
     }
     .date_selector td.selectable_day:hover {
       background: #003C78;

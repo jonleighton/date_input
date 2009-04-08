@@ -1,3 +1,9 @@
+Version 1.2.0
+-------------
+
+ * Implement better keyboard navigation via arrow keys, Pg-Up, Pg-Down, Esc, etc
+ * Implement year scrolling, as well as month scrolling
+
 Version 1.1.8
 -------------
 
