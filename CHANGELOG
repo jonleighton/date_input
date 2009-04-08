@@ -5,6 +5,8 @@ Version 1.2.0
    patch by Kevin Field]
  * Implement year scrolling, as well as month scrolling
  * Use XML entities for compatibility
+ * Use position rather than offset to determine whether a click is inside or outside of the date
+   selector [steverobinson]
 
 Version 1.1.8
 -------------
