@@ -63,7 +63,7 @@
     overflow: hidden;
     border: 1px solid #F2F2F2;
   }
-    .date_selector .button:hover {
+    .date_selector .button:hover, .date_selector .button.hover {
       background: none;
       color: #003C78;
       cursor: pointer;
@@ -102,11 +102,11 @@
     .date_selector td.selectable_day {
       cursor: pointer;
     }
-    .date_selector td.selectable_day:hover {
-      background: #003C78;
-      color: white;
-    }
     .date_selector td.selected {
       background: #D8DFE5;
       font-weight: bold;
+    }
+    .date_selector td.selectable_day:hover, .date_selector td.selectable_day.hover {
+      background: #003C78;
+      color: white;
     }

@@ -47,11 +47,15 @@ DateInput.prototype = {
     
     this.dateSelector = this.rootLayers = $('<div class="date_selector"></div>').append(nav, tableShell).insertAfter(this.input);
     
-    // The ieframe is a hack which works around an IE <= 6 bug where absolutely positioned elements
-    // appear behind select boxes. Putting an iframe over the top of the select box prevents this.
     if ($.browser.msie && $.browser.version < 7) {
+      // The ieframe is a hack which works around an IE <= 6 bug where absolutely positioned elements
+      // appear behind select boxes. Putting an iframe over the top of the select box prevents this.
       this.ieframe = $('<iframe class="date_selector_ieframe" frameborder="0" src="#"></iframe>').insertBefore(this.dateSelector);
       this.rootLayers = this.rootLayers.add(this.ieframe);
+      
+      // IE 6 only does :hover on A elements
+      $(".button", nav).mouseover(function() { $(this).addClass("hover") });
+      $(".button", nav).mouseout(function() { $(this).removeClass("hover") });
     };
     
     this.tbody = $("tbody", this.dateSelector);
@@ -98,6 +102,9 @@ DateInput.prototype = {
       }));
       
       $("td[date=" + this.dateToString(new Date()) + "]", this.tbody).addClass("today");
+      
+      $("td.selectable_day", this.tbody).mouseover(function() { $(this).addClass("hover") });
+      $("td.selectable_day", this.tbody).mouseout(function() { $(this).removeClass("hover") });
     };
     
     $('.selected', this.tbody).removeClass("selected");
