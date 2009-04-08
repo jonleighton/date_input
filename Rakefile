@@ -11,10 +11,11 @@ class PackageGenerator
   def generate
     delete_previous
     copy_files
-    write_header
+    process_code
     pack_js
     minify_js
     compress
+  ensure
     clean_up
   end
   
@@ -24,13 +25,20 @@ class PackageGenerator
   
   def copy_files
     FileUtils.mkdir package_dir
-    FileUtils.cp root_files("date_input.css", "LICENCE", "README", "CHANGELOG", "NOTES"), package_dir
+    FileUtils.cp root_files("date_input.css", "LICENCE", "README", "CHANGELOG"), package_dir
   end
   
-  def write_header
+  def process_code
+    code = File.read(root_file(plugin_file))
+    
+    code.gsub!(/\/\/[^\n]+/,  "") # Remove any other '//' comments (without deleting the line)
+    code.gsub!(/\/\*.+\*\//m, "") # Remove '/* */' comments
+    
+    code.gsub!(/(\n +\n)( +\n)+/) { $1 } # Remove any multiple empty lines
+    
     open(package_file(plugin_file), "w") do |file|
       file << header
-      file << File.read(root_file(plugin_file))
+      file << code
     end
   end
   

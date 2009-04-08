@@ -292,10 +292,10 @@ DateInput.prototype = {
     return (end - start) / 86400000;
   },
   
-  // changeDayTo: Given a date, move along the date line in the given direction until we reach the
-  // desired day of week.
-  
   /*
+  changeDayTo: Given a date, move along the date line in the given direction until we reach the
+  desired day of week.
+  
   The maths is a bit complex, here's an explanation.
   
   Think of a continuous repeating number line like:
