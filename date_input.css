@@ -23,6 +23,11 @@
   z-index: 99999;
   display: none;
 }
+  .date_selector .nav {
+    overflow: hidden;
+    width: 17.5em; /* 7 * 2.5em */
+    padding: 0 4px; /* Compensates for cell borders */
+  }
   .date_selector .month_nav, .date_selector .year_nav {
     margin: 0 0 3px 0;
     padding: 0;
@@ -33,10 +38,12 @@
   .date_selector .month_nav {
     float: left;
     width: 55%;
+    margin-left: -4px; /* Counter balances the padding of .nav */
   }
   .date_selector .year_nav {
     float: right;
     width: 35%;
+    margin-right: -4px; /* Counter balances the padding of .nav */
   }
   .date_selector .month_name, .date_selector .year_name {
     font-weight: bold;

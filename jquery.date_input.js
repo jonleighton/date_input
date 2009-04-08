@@ -37,13 +37,15 @@ DateInput.prototype = {
     $(".prev", yearNav).click(this.bindToObj(function() { this.moveMonthBy(-12); }));
     $(".next", yearNav).click(this.bindToObj(function() { this.moveMonthBy(12); }));
     
+    var nav = $('<div class="nav"></div>').append(monthNav, yearNav);
+    
     var tableShell = "<table><thead><tr>";
     $(this.adjustDays(this.short_day_names)).each(function() {
       tableShell += "<th>" + this + "</th>";
     });
     tableShell += "</tr></thead><tbody></tbody></table>";
     
-    this.dateSelector = this.rootLayers = $('<div class="date_selector"></div>').append(monthNav, yearNav, tableShell).insertAfter(this.input);
+    this.dateSelector = this.rootLayers = $('<div class="date_selector"></div>').append(nav, tableShell).insertAfter(this.input);
     
     // The ieframe is a hack which works around an IE <= 6 bug where absolutely positioned elements
     // appear behind select boxes. Putting an iframe over the top of the select box prevents this.
