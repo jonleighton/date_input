@@ -81,6 +81,7 @@
       height: 2em;
       padding: 0;
       text-align: center;
+      color: black;
     }
     .date_selector td {
       border: 1px solid #ccc;
