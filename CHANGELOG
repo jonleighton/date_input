@@ -1,8 +1,10 @@
 Version 1.2.0
 -------------
 
- * Implement better keyboard navigation via arrow keys, Pg-Up, Pg-Down, Esc, etc
+ * Implement better keyboard navigation via arrow keys, Pg-Up, Pg-Down, Esc, etc [Adapted from a
+   patch by Kevin Field]
  * Implement year scrolling, as well as month scrolling
+ * Use XML entities for compatibility
 
 Version 1.1.8
 -------------
