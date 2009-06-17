@@ -1,3 +1,8 @@
+Version 1.2.1
+-------------
+
+ * Fix CSS bug with WebKit-based browsers
+
 Version 1.2.0
 -------------
 

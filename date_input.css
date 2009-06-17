@@ -75,6 +75,7 @@
   .date_selector table {
     border-spacing: 0;
     border-collapse: collapse;
+    clear: both;
   }
     .date_selector th, .date_selector td {
       width: 2.5em;
