@@ -15,7 +15,8 @@ DateInput.DEFAULT_OPTS = {
   month_names: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
   short_month_names: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
   short_day_names: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
-  start_of_week: 1
+  start_of_week: 1,
+  default_date: "" //leave blank for today - Format: "1 Jan 2010"
 };
 DateInput.prototype = {
   build: function() {
@@ -116,7 +117,10 @@ DateInput.prototype = {
   // selecting a particular date.
   selectDate: function(date) {
     if (typeof(date) == "undefined") {
-      date = this.stringToDate(this.input.val());
+	if (this.input.val() == "")
+	 date = this.stringToDate(this.default_date);
+	else
+	 date = this.stringToDate(this.input.val());
     };
     if (!date) date = new Date();
     
