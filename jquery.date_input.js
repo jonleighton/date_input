@@ -216,10 +216,10 @@ DateInput.prototype = {
   },
   
   setPosition: function() {
-    var offset = this.input.offset();
+    var position = this.input.position();
     this.rootLayers.css({
-      top: offset.top + this.input.outerHeight(),
-      left: offset.left
+      top: position.top + this.input.outerHeight(),
+      left: position.left
     });
     
     if (this.ieframe) {
