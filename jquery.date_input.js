@@ -133,11 +133,32 @@ DateInput.prototype = {
   },
   
   show: function() {
+	this.setShowDate();
     this.rootLayers.css("display", "block");
     $([window, document.body]).click(this.hideIfClickOutside);
     this.input.unbind("focus", this.show);
     $(document.body).keydown(this.keydownHandler);
     this.setPosition();
+  },
+  
+  //defalut set Date
+  setShowDate: function(){
+	var _val = this.input.val();
+    if(this.isDate(_val)){
+	    var regex = /^(\d{4})-(\d{2})-(\d{2})$/;
+        var r = _val.replace(regex, '$1/$2/$3');
+	    var y = parseInt(RegExp.$1, 10), m = parseInt(RegExp.$2, 10) - 1, d = parseInt(RegExp.$3, 10);
+	    var _Date = new Date(y, m, d);
+        this.selectDate(_Date);
+    }
+  },
+
+  isEmpty: function(v){
+    return ((v == null) || (v.length == 0));
+  },
+
+  isDate: function(v){
+    return !this.isEmpty(v) && /^(\d+)-(\d{1,2})-(\d{1,2})$/.test(v);
   },
   
   hide: function() {
@@ -156,7 +177,7 @@ DateInput.prototype = {
   
   // Returns true if the given event occurred inside the date selector
   insideSelector: function(event) {
-    var offset = this.dateSelector.position();
+    var offset = this.dateSelector.offset();
     offset.right = offset.left + this.dateSelector.outerWidth();
     offset.bottom = offset.top + this.dateSelector.outerHeight();
     
@@ -212,11 +233,19 @@ DateInput.prototype = {
   },
   
   dateToString: function(date) {
-    return date.getDate() + " " + this.short_month_names[date.getMonth()] + " " + date.getFullYear();
+    //return date.getDate() + " " + this.short_month_names[date.getMonth()] + " " + date.getFullYear();
+	var y = date.getFullYear().toString(), m = (date.getMonth() + 1).toString(), d = date.getDate().toString();	  
+	if(m.length == 1){
+		m = "0"+ m;
+	}
+	if(d.length == 1){
+		d = "0" + d;
+	}  
+	return y + "-" + m + "-" + d;
   },
   
   setPosition: function() {
-    var offset = this.input.offset();
+    var offset = this.input.position();
     this.rootLayers.css({
       top: offset.top + this.input.outerHeight(),
       left: offset.left
