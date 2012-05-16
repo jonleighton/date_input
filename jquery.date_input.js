@@ -156,7 +156,7 @@ DateInput.prototype = {
   
   // Returns true if the given event occurred inside the date selector
   insideSelector: function(event) {
-    var offset = this.dateSelector.position();
+    var offset = this.dateSelector.offset();
     offset.right = offset.left + this.dateSelector.outerWidth();
     offset.bottom = offset.top + this.dateSelector.outerHeight();
     
@@ -216,10 +216,10 @@ DateInput.prototype = {
   },
   
   setPosition: function() {
-    var offset = this.input.offset();
+    var position = this.input.position();
     this.rootLayers.css({
-      top: offset.top + this.input.outerHeight(),
-      left: offset.left
+      top: position.top + this.input.outerHeight(),
+      left: position.left
     });
     
     if (this.ieframe) {
